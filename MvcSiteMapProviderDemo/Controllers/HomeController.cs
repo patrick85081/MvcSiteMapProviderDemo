@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MvcSiteMapProvider.Web.Mvc.Filters;
 
 namespace MvcSiteMapProviderDemo.Controllers
 {
     public class HomeController : Controller
     {
+        [SiteMapCacheRelease]
         public ActionResult Index()
         {
             return View();
         }
 
+        [SiteMapCacheRelease]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -20,6 +23,7 @@ namespace MvcSiteMapProviderDemo.Controllers
             return View();
         }
 
+        [SiteMapCacheRelease]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

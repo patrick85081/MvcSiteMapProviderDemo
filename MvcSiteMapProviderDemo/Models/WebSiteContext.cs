@@ -29,12 +29,12 @@ namespace MvcSiteMapProviderDemo.Models
             var roleTable = modelBuilder.Entity<Role>();
 
             userTable.HasMany(u => u.Roles)
-                .WithMany(r => r.Users)
+                    .WithMany(r => r.Users)
                 .Map(mc =>
                 {
                     mc.ToTable("UsersRoles");
-                    mc.MapLeftKey("RoleId");
-                    mc.MapRightKey("MenuId");
+                    mc.MapLeftKey("UserId");
+                    mc.MapRightKey("RoleId");
                 });
 
             roleTable.HasMany(r => r.Menus)
@@ -42,8 +42,8 @@ namespace MvcSiteMapProviderDemo.Models
                 .Map(mc =>
                 {
                     mc.ToTable("RolesMenus");
-                    mc.MapLeftKey("MenuId");
-                    mc.MapRightKey("RoleId");
+                    mc.MapLeftKey("RoleId");
+                    mc.MapRightKey("MenuId");
                 });
 
             base.OnModelCreating(modelBuilder);
@@ -60,9 +60,11 @@ namespace MvcSiteMapProviderDemo.Models
                 r=>r.RoleId,
                 new Role(){Name = "Admin", IsEnable = true},
                 new Role(){Name = "Staff", IsEnable = true});
+            
+            context.SaveChanges();
 
             context.Users.AddOrUpdate(
-                u=>u.UserId,
+                u => u.UserId,
                 new User()
                 {
                     UserId = "Foo",
@@ -126,7 +128,8 @@ namespace MvcSiteMapProviderDemo.Models
 
     public class User
     {
-        [Key] public string UserId { get; set; }
+        [Key]
+        public string UserId { get; set; }
 
         public string Email { get; set; }
 
