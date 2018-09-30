@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Security;
 using MvcSiteMapProvider;
 using MvcSiteMapProviderDemo.Models;
+using MvcSiteMapProviderDemo.ViewModels;
+using Newtonsoft.Json;
 
 namespace MvcSiteMapProviderDemo.Utils
 {
@@ -13,7 +17,12 @@ namespace MvcSiteMapProviderDemo.Utils
             using (var context = new WebSiteContext())
             {
                 context.Database.Log = System.Console.WriteLine;
-                var loginUserId = "Foo";
+
+                if (!HttpContext.Current.Request.IsAuthenticated)
+                    return Enumerable.Empty<DynamicNode>();
+                
+                //var loginUserId = "Foo";
+                var loginUserId = UserInfoViewModel.GetCurrent().UserId;
                 var roleMenus = (from user in context.Users
                                  where user.UserId == loginUserId
                                  from role in user.Roles
@@ -35,7 +44,8 @@ namespace MvcSiteMapProviderDemo.Utils
                            Action = menu.Action,
                            Controller = menu.Controller,
                            Url = menu.Url,
-                           RouteValues = routeValue
+                           RouteValues = routeValue ,
+                           //Roles = menu.Roles.Select(r => r.Name).ToArray()
                        };
             }
         }

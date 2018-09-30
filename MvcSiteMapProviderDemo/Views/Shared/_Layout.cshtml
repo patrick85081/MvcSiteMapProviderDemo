@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
@@ -19,18 +19,44 @@
                 </button>
                 @Html.ActionLink("應用程式名稱", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+            <ul class="nav navbar-nav navbar-right top-nav top-right">
+                @*<li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" >1234</a>
+                    <ul class="dropdown-menu">
+                        <li>1234</li>
+                    </ul>
+                </li>*@
+                @if (Request.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("登出","Logout","User")</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("登入","Login","User")</li>
+                }
+                <li><a href="#">1234</a></li>
+                <li><a href="#">1234</a></li>
+                <li><a href="#">1234</a></li>
+            </ul>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("首頁", "Index", "Home")</li>
                     <li>@Html.ActionLink("關於", "About", "Home")</li>
                     <li>@Html.ActionLink("連絡人", "Contact", "Home")</li>
                 </ul>
-                
+
                 @Html.MvcSiteMap().Menu("BootstrapMenuHelperModel", false)
             </div>
         </div>
     </div>
     <div class="container body-content">
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>錯誤!</strong> @ViewBag.ErrorMessage.
+            </div>
+        }
         @RenderBody()
         <hr />
         <footer>

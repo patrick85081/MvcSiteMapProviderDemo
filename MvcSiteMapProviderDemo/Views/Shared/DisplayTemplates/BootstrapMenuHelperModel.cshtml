@@ -8,7 +8,6 @@
         @foreach (SiteMapNodeModel node in nodeList)
         {
 
-
             string url = node.IsClickable ? node.Url : "#";
 
             if (!node.Children.Any())
@@ -17,7 +16,11 @@
             }
             else
             {
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="@url">@node.Title <b class="caret"></b></a>@DropDownMenu(node.Children)</li>
+                <li class="dropdown @(node.IsInCurrentPath ? "active" : "")">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="@url">
+                        @node.Title <b class="caret"></b>
+                    </a>@DropDownMenu(node.Children)
+                </li>
             }
 
             if (node != nodeList.Last())
@@ -44,8 +47,9 @@
 
             if (!node.Children.Any())
             {
-                @:
-                <li><a href="@url">@node.Title</a></li>
+                <li class="@(node.IsCurrentNode ? "active" : "")">
+                    <a href="@url">@node.Title</a>
+                </li>
             }
             else
             {
